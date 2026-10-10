@@ -1,0 +1,12 @@
+import {Router} from "express";
+import {createDepartmentController,getAllDepartmentsController,updateDepartmentController,deleteDepartmentController,getDepartmentByIdController} from "../controllers/department.controller.js";
+import authenticate from "../middleware/authenticate.js";
+import authorize from "../middleware/authorize.js";
+import useAsync from "../utils/asyncHandler.js";
+const departmentRouter = Router();
+departmentRouter.post("/create", authenticate, authorize(["ADMIN"]),useAsync(createDepartmentController));
+departmentRouter.get("/all", authenticate, authorize(["ADMIN", "USER"]), useAsync(getAllDepartmentsController));
+departmentRouter.get("/:id", authenticate, authorize(["ADMIN"]), useAsync(getDepartmentByIdController));
+departmentRouter.patch("/:id", authenticate, authorize(["ADMIN"]),useAsync(updateDepartmentController));
+departmentRouter.delete("/:id", authenticate, authorize(["ADMIN"]),useAsync(deleteDepartmentController));
+export default departmentRouter;

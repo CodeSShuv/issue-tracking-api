@@ -1,0 +1,13 @@
+import {Router} from "express";
+import {signupController, loginController,profileController , getAllUsersController,updateProfileController, updatePasswordController} from "../controllers/user.controller.js";
+import useAsync from "../utils/asyncHandler.js";
+import authenticate from "../middleware/authenticate.js";
+import authorize from "../middleware/authorize.js";
+const userRouter = Router();
+userRouter.post("/signup", useAsync(signupController));
+userRouter.post("/login", useAsync(loginController));
+userRouter.get("/profile", authenticate ,useAsync(profileController));
+userRouter.get("/all" ,authenticate,authorize(["ADMIN"]), useAsync(getAllUsersController));
+userRouter.patch("/profile", authenticate, useAsync(updateProfileController));
+userRouter.patch("/profile/password", authenticate, useAsync(updatePasswordController));
+export default userRouter;
