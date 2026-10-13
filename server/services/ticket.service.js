@@ -1,6 +1,16 @@
 import prisma from "../lib/prisma.js";
 
-export const createTicket = async (data) => {
+export const createTicket = async (data, deparmentName) => {
+    const departments = await prisma.department.findMany();
+    let matchingDepartmentId = null;
+    for(const department of departments){
+        if(department.name.toLowerCase() === deparmentName.toLowerCase()){
+                matchingDepartmentId = department.id;
+                break;
+
+        }
+    }
+    data.departmentId = matchingDepartmentId;
     const ticket = await prisma.ticket.create({
         data: data,
         select: {
@@ -16,3 +26,33 @@ export const createTicket = async (data) => {
     });
     return ticket;
 }
+export const getAllTickets = async ()=>{
+    const tickets = await prisma.ticket.findMany({
+         select: { id: true,
+            title: true,
+            description: true,
+            status: true,
+            priority: true,
+            departmentId: true,
+            userId: true,}
+    });
+return tickets;
+}
+export const getTicketsByUserId = async(userId)=>{
+    const tickets = await prisma.ticket.findMany({
+        where:{userId:userId}
+    });
+
+  return tickets;
+}
+
+export const getDetailsOfTicketController = async (ticketId)=>{
+    const ticket = await prisma.ticket.findUnique({
+        where:{
+            id: ticketId
+        }
+
+        
+    })
+}
+
