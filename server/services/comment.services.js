@@ -17,3 +17,4 @@ export const createComment = async (ticketId, userId, content) => {
     return comment;
 
 }
+

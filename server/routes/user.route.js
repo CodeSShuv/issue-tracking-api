@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {signupController, loginController,profileController , getAllUsersController,updateProfileController, updatePasswordController} from "../controllers/user.controller.js";
+import {signupController, loginController,profileController , getAllUsersController,updateProfileController, updatePasswordController, resetUserPasswordController} from "../controllers/user.controller.js";
 import useAsync from "../utils/asyncHandler.js";
 import authenticate from "../middleware/authenticate.js";
 import authorize from "../middleware/authorize.js";
@@ -10,4 +10,5 @@ userRouter.get("/profile", authenticate ,useAsync(profileController));
 userRouter.get("/all" ,authenticate,authorize(["ADMIN"]), useAsync(getAllUsersController));
 userRouter.patch("/profile", authenticate, useAsync(updateProfileController));
 userRouter.patch("/profile/password", authenticate, useAsync(updatePasswordController));
+userRouter.patch("/reset-password/:userId",authenticate,authorize(["ADMIN"]), resetUserPasswordController);
 export default userRouter;

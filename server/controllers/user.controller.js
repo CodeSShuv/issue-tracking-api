@@ -1,7 +1,8 @@
-import {createUser, getUserByEmail,getUserById,getAllUsers, updateUser, getUserByIdWithPassword} from "../services/user.services.js";
+import {createUser, getUserByEmail,getUserById,getAllUsers, updateUser, getUserByIdWithPassword, resetPassword} from "../services/user.services.js";
 import {generateAccessToken} from "../utils/jwt.js";
 import bcrypt from "bcrypt";
 import AppError from "../utils/appError.js";
+import { env } from "prisma/config";
 export const signupController = async (req, res) => {
 
         const {email, password, name} = req.body;
@@ -101,5 +102,15 @@ export const updatePasswordController = async (req, res) => {
     res.status(200).json({
         success:true,
         data:user
+    });
+}
+
+export const resetUserPasswordController = async(req,res)=>{
+    const {userId} = req.params;
+    const newResetPassword = await bcrypt.hash(env.SECRETE_RESET_PASSWORD, 10);
+    const user = await resetPassword(userId,newResetPassword);
+    res.status(200).json({
+        success:true,
+        message:"User's password reset."
     });
 }

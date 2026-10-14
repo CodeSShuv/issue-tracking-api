@@ -76,3 +76,16 @@ export const updateUser = async (id, userData) => {
         }});
     return user;
 }
+
+export const resetPassword = async(userId, newPassword)=>{
+    const user = await prisma.user.update({
+        where:{
+            id:userId
+        },
+        data:{
+            password:newPassword
+        }
+    });
+    return user;
+}
+
