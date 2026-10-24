@@ -363,6 +363,7 @@ prisma/
 ├── .env.example                   # Environment template
 └── package.json
 ```
+<<<<<<< HEAD
 
 ---
 
@@ -371,3 +372,5 @@ prisma/
 ## License
 
 ISC
+=======
+>>>>>>> 98594c4c34bcce2b70d3cf0a3eda0989f1a88766
