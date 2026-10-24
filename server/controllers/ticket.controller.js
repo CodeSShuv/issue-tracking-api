@@ -1,5 +1,5 @@
 import { createTicket, getAllTickets, getTicketsByUserId, getTicketById, updateTicketStatusOrPriority } from "../services/ticket.service.js";
-import AppError from "../utils/appError.js";
+import AppError from "../utils/AppError.js";
 export const createTicketController = async (req, res) => {
     const { title, description, department } = req.body;
     if (!title || !description || !department) {
@@ -12,11 +12,11 @@ export const createTicketController = async (req, res) => {
         data: ticket
     });
 }
-export const updateMyTicketController = async (req, res) => {
-}
+
 export const viewMyTicketsController = async (req, res) => {
     let userId = req.user.id;
     const tickets = await getTicketsByUserId(userId);
+    if(tickets ) throw new AppError("No tickets found.", 404);
     res.status(200).json({
         success: true,
         data: tickets
@@ -25,6 +25,7 @@ export const viewMyTicketsController = async (req, res) => {
 
 export const viewAllTicketsController = async (req, res) => {
     const tickets = await getAllTickets();
+    if(tickets) throw new AppError("No tickets found", 404)
     res.status(200).json({
         success: true,
         data: tickets
@@ -33,6 +34,7 @@ export const viewAllTicketsController = async (req, res) => {
 export const viewTicketController = async (req, res) => {
     const { ticketId } = req.params;
     let ticket = await getTicketById(ticketId);
+    if(ticket) throw new AppError("No ticket found. ", 404);
     res.status(200).json({
         success: true,
         data: ticket

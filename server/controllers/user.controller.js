@@ -1,11 +1,12 @@
 import {createUser, getUserByEmail,getUserById,getAllUsers, updateUser, getUserByIdWithPassword, resetPassword} from "../services/user.services.js";
 import {generateAccessToken} from "../utils/jwt.js";
 import bcrypt from "bcrypt";
-import AppError from "../utils/appError.js";
-import { env } from "prisma/config";
+import AppError from "../utils/AppError.js";
 export const signupController = async (req, res) => {
 
         const {email, password, name} = req.body;
+        if(!email || !password || !name) throw new AppError("Email,Password and Name should be provided. ", 401);
+
         let hashedPassword = await bcrypt.hash(password, 10);
         let userData = {
             email,
@@ -66,7 +67,7 @@ export const updateProfileController = async (req, res) => {
     if(name == undefined && email == undefined) throw new AppError("No data to update", 400);
 
     if(name !== undefined) {
-        if(typeof name !== "string" || name.trim() !== "") throw new AppError("Invalid name", 400);
+        if(typeof name !== "string" || name.trim() === "") throw new AppError("Invalid name", 400);
         name =name.trim();
         data.name = name;
     }

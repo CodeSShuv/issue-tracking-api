@@ -1,5 +1,5 @@
 import prisma from './../lib/prisma.js';
-import AppError from '../utils/appError.js';
+import AppError from "../utils/AppError.js";
 export const createComment = async (ticketId, userId, content) => {
     let ticket = await prisma.ticket.findUnique({
         where: {

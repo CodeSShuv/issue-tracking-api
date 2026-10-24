@@ -1,4 +1,4 @@
-import AppError from '../utils/appError.js';
+import AppError from "../utils/AppError.js";
 import { createComment } from '../services/comment.services.js';
 export const createCommentController = async (req,res)=>{
     const {content} = req.body;

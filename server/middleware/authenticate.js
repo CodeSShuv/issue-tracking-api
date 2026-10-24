@@ -1,5 +1,5 @@
 import {verifyAccessToken} from "../utils/jwt.js";
-import AppError from "../utils/appError.js";
+import AppError from "../utils/AppError.js";
 const   authenticate = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if(!authHeader || !authHeader.startsWith("Bearer ")) {

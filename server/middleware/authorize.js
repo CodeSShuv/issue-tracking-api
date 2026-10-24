@@ -1,4 +1,4 @@
-import AppError from "../utils/appError.js";
+import AppError from "../utils/AppError.js";
 const authorize = (allowedRoles ) =>{
     return (req,res,next )=>{
         if(!allowedRoles.includes(req.user.role)){
